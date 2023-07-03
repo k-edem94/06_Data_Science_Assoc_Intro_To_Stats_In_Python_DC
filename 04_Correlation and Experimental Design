@@ -1,0 +1,278 @@
+04_Correlation and Experimental Design
+
+===========Guess the correlation
+On the right, use the scatterplot to estimate what the correlation is between 
+the variables x and y. Once you've guessed it correctly, use the New Plot button 
+to try out a few more scatterplots. When you're ready, answer the question 
+below to continue to the next exercise.
+
+Which of the following statements is NOT true about correlation?
+
+Instructions
+
+--If the correlation betwwen x and y has a high magnitude, the data points will
+be clustered closely around a line.
+
+--Correlation can be written as r.
+
+--If x and y are negatively correlated, values of y decrease as values of x
+increase
+
+Answer: --- Correlation cannont be 0.
+
+
+Spot on! When correlation is 0, that means there is no relationship between 
+two variables and the points appear to be randomly scattered.
+
+-----------Relationships between variables
+In this chapter, you'll be working with a dataset world_happiness containing 
+results from the 2019 World Happiness Report. The report scores various 
+countries based on how happy people in that country are. It also ranks each 
+country on various societal aspects such as social support, freedom, corruption, 
+and others. The dataset also includes the GDP per capita and life expectancy for 
+each country.
+
+In this exercise, you'll examine the relationship between a country's life 
+expectancy (life_exp) and happiness score (happiness_score) both visually and 
+quantitatively. seaborn as sns, matplotlib.pyplot as plt, and pandas as pd are 
+loaded and world_happiness is available.
+
+Instructions
+
+Create a scatterplot of happiness_score vs. life_exp (without a trendline) 
+using seaborn.
+
+Show the plot.
+
+# Create a scatterplot of happiness_score vs. life_exp and show
+sns.scatterplot(x='life_exp' , y= 'happiness_score', data=world_happiness)
+
+# Show plot
+plt.show()
+
+Create a scatterplot of happiness_score vs. life_exp with a linear trendline 
+using seaborn, setting ci to None.
+
+Show the plot.
+
+# Create scatterplot of happiness_score vs life_exp with trendline
+sns.lmplot(x= 'life_exp', y='happiness_score' , data=world_happiness , ci=None )
+
+# Show plot
+plt.show()
+
+Question
+--Based on the scatterplot, which is most likely the correlation between 
+life_exp and happiness_score?
+
+Answer: 0.8
+
+Calculate the correlation between life_exp and happiness_score. 
+Save this as cor.
+
+# Create scatterplot of happiness_score vs life_exp with trendline
+sns.lmplot(x='life_exp', y='happiness_score', data=world_happiness, ci=None)
+
+# Show plot
+plt.show()
+
+# Correlation between life_exp and happiness_score
+cor = world_happiness['life_exp'].corr(world_happiness['happiness_score'])
+
+print(cor)
+
+#msleep['sleep_total'].corr(msleep['sleep_rem'])
+
+Vibrant visualizations! Scatterplots with trendlines are a great way 
+to verify that a relationship between two variables is indeed linear.
+
+=================What can't correlation measure?
+While the correlation coefficient is a convenient way to quantify the strength 
+of a relationship between two variables, it's far from perfect. In this 
+exercise, you'll explore one of the caveats of the correlation coefficient by 
+examining the relationship between a country's GDP per capita (gdp_per_cap) 
+and happiness score.
+
+pandas as pd, matplotlib.pyplot as plt, and seaborn as sns are imported, and 
+world_happiness is loaded.
+
+Instructions
+
+Create a seaborn scatterplot (without a trendline) showing the relationship 
+between gdp_per_cap (on the x-axis) and life_exp (on the y-axis).
+
+Show the plot
+
+# Scatterplot of gdp_per_cap and life_exp
+sns.scatterplot(x='gdp_per_cap', y='life_exp', data=world_happiness)
+
+# Show plot
+plt.show()
+
+Calculate the correlation between gdp_per_cap and life_exp and store as cor.
+
+# Scatterplot of gdp_per_cap and life_exp
+sns.scatterplot(x='gdp_per_cap', y='life_exp', data=world_happiness)
+
+# Show plot
+plt.show()
+  
+# Correlation between gdp_per_cap and life_exp
+cor = world_happiness['gdp_per_cap'].corr(world_happiness['life_exp'])
+
+print(cor)
+
+Question
+
+The correlation between GDP per capita and life expectancy is 0.7. Why is 
+correlation not the best way to measure the relationship between these two 
+variables?
+
+Possible Answers
+--Correlation measures how one variable affects another
+Answer --- Correlation only measures linear relationships
+--Correlation cannot properly measure relationships between numeric variables
+
+Correct! The correlation coefficient can't account for any relationships 
+that aren't linear, regardless of strength.
+
+NB: Remember that a plot of a versus b means that a should be on the 
+y-axis, and b should be on the x-axis.
+
+==============Transforming variables
+When variables have skewed distributions, they often require a transformation 
+in order to form a linear relationship with another variable so that 
+correlation can be computed. In this exercise, you'll perform a transformation 
+yourself.
+
+pandas as pd, numpy as np, matplotlib.pyplot as plt, and seaborn as sns are 
+imported, and world_happiness is loaded.
+
+Instructions
+
+Create a scatterplot of happiness_score versus gdp_per_cap and calculate 
+the correlation between them.
+
+# Scatterplot of happiness_score vs. gdp_per_cap
+sns.scatterplot(x='gdp_per_cap', y='happiness_score', data=world_happiness)
+plt.show()
+
+# Calculate correlation
+cor = world_happiness['happiness_score'].corr(world_happiness['gdp_per_cap'])
+print(cor)
+
+Add a new column to world_happiness called log_gdp_per_cap that contains the 
+log of gdp_per_cap.
+Create a seaborn scatterplot of happiness_score versus log_gdp_per_cap.
+Calculate the correlation between log_gdp_per_cap and happiness_score.
+
+# Create log_gdp_per_cap column
+world_happiness['log_gdp_per_cap'] = np.log(world_happiness['gdp_per_cap'])
+
+# Scatterplot of happiness_score vs. log_gdp_per_cap
+sns.scatterplot(x='log_gdp_per_cap', y='happiness_score', data=world_happiness)
+plt.show()
+
+# Calculate correlation
+cor = world_happiness['log_gdp_per_cap'].corr(world_happiness['happiness_score'])
+print(cor)
+
+Terrific transforming! The relationship between GDP per capita and happiness 
+became more linear by applying a log transformation. Log transformations are 
+great to use on variables with a skewed distribution, such as GDP.
+
+===============Does sugar improve happiness?
+A new column has been added to world_happiness called grams_sugar_per_day, 
+which contains the average amount of sugar eaten per person per day in each 
+country. In this exercise, you'll examine the effect of a country's average 
+sugar consumption on its happiness score.
+
+pandas as pd, matplotlib.pyplot as plt, and seaborn as sns are imported, and 
+world_happiness is loaded.
+
+Instructions
+
+Create a seaborn scatterplot showing the relationship between 
+grams_sugar_per_day (on the x-axis) and happiness_score (on the y-axis).
+
+Calculate the correlation between grams_sugar_per_day and happiness_score.
+
+# Scatterplot of grams_sugar_per_day and happiness_score
+sns.scatterplot(x='grams_sugar_per_day', y='happiness_score', data=world_happiness)
+plt.show()
+
+# Correlation between grams_sugar_per_day and happiness_score
+cor = world_happiness['grams_sugar_per_day'].corr(world_happiness['happiness_score'])
+print(cor)
+
+Question
+Based on this data, which statement about sugar consumption and happiness 
+scores is true?
+
+Answer: 
+--Increased sugar consumption is associated with a higher happiness score.
+
+Nice interpretation of correlation! If correlation always implied that one 
+thing causes another, people may do some nonsensical things, like eat more 
+sugar to be happier.
+
+================Confounders
+A study is investigating the relationship between neighborhood residence and 
+lung capacity. Researchers measure the lung capacity of thirty people from 
+neighborhood A, which is located near a highway, and thirty people from 
+neighborhood B, which is not near a highway. Both groups have similar 
+smoking habits and a similar gender breakdown.
+
+Which of the following could be a confounder in this study?
+
+Answer: Air pollution
+
+
+Correct! You would expect there to be more air pollution in the 
+neighborhood situated near the highway, which can cause lower lung capacity.
+
+================Study types
+While controlled experiments are ideal, many situations and research questions 
+are not conducive to a controlled experiment. In a controlled experiment, 
+causation can likely be inferred if the control and test groups have similar 
+characteristics and don't have any systematic difference between them. On the 
+other hand, causation cannot usually be inferred from observational studies, 
+whose results are often misinterpreted as a result.
+
+In this exercise, you'll practice distinguishing controlled experiments from 
+observational studies.
+
+Determine if each study is a controlled experiment or observational study.
+
+Controlled experiment
+--Subjects are randomly assigned to a diet and weight loss is compared.
+--Purchasing rates are compared between users of an e-commerce site who are
+randomly directed to a new version of the home page or an old version.
+--Asthma symptoms are compared between children randomly assigned to receive
+professional home pest managment services or pest management education.
+
+Observational Study
+--A week ago, the home page of an e-commerce site was updated. Purchasing rates
+are compared between users who saw the old and new home page versions.
+
+--Prevalence of heart disease is compared between veterans with PTSD and 
+verterans without PTSD.
+
+
+Marvelous matching! Now that you can distinguish between controlled 
+experiments and observational studies, you'll be able to tell when an 
+observational study claims to esablish a causal relationship.
+
+===============Longitudinal vs. cross-sectional studies
+A company manufactures thermometers, and they want to study the relationship 
+between a thermometer's age and its accuracy. To do this, they take a sample 
+of 100 different thermometers of different ages and test how accurate they are.
+ Is this data longitudinal or cross-sectional?
+
+Answer: Cross-sectional
+
+Perfect! This is a cross-sectional study since researchers aren't following 
+the same set of thermometers over time and repeatedly measuring their accuracy 
+at different ages.
+
+==============
